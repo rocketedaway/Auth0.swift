@@ -49,7 +49,7 @@ struct Auth0Authentication: Authentication {
             "client_id": self.clientId
             ]
         payload["mfa_code"] = multifactorCode
-        parameters.forEach { key, value in payload[key] = value }
+        parameters.forEach { payload[$0.key] = $0.value }
         return Request(session: session, url: resourceOwner, method: "POST", handle: authenticationObject, payload: payload, logger: self.logger, telemetry: self.telemetry)
     }
 
@@ -142,7 +142,7 @@ struct Auth0Authentication: Authentication {
             "scope": scope,
             "client_id": self.clientId
             ]
-        parameters.forEach { key, value in payload[key] = value }
+        parameters.forEach { payload[$0.key] = $0.value }
         let accessToken = URL(string: "/oauth/access_token", relativeTo: self.url)!
         return Request(session: session, url: accessToken, method: "POST", handle: authenticationObject, payload: payload, logger: self.logger, telemetry: self.telemetry)
     }
@@ -151,7 +151,7 @@ struct Auth0Authentication: Authentication {
         var payload: [String: Any] = [
             "client_id": self.clientId
             ]
-        parameters.forEach { payload[$0] = $1 }
+        parameters.forEach { payload[$0.key] = $0.value }
         let token = URL(string: "/oauth/token", relativeTo: self.url)!
         return Request(session: session, url: token, method: "POST", handle: authenticationObject, payload: payload, logger: self.logger, telemetry: self.telemetry)
     }
@@ -190,7 +190,7 @@ struct Auth0Authentication: Authentication {
             "client_id": self.clientId,
             "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer"
         ]
-        parameters.forEach { payload[$0] = $1 }
+        parameters.forEach { payload[$0.key] = $0.value }
         let delegation = URL(string: "/delegation", relativeTo: self.url)!
         return Request(session: session, url: delegation, method: "POST", handle: plainJson, payload: payload, logger: self.logger, telemetry: self.telemetry)
     }

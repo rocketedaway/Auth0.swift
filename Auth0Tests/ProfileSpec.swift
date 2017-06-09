@@ -79,7 +79,7 @@ class UserProfileSpec: QuickSpec {
                     "given_name": "John",
                     "family_name": "Doe"
                 ]
-                optional.forEach { key, value in info[key] = value }
+                optional.forEach { info[$0.key] = $0.value }
                 let profile = Profile(json: info)
                 expect(profile?.email) == SupportAtAuth0
                 expect(profile?.emailVerified) == true
@@ -92,7 +92,7 @@ class UserProfileSpec: QuickSpec {
                 let optional: [String: Any] = [
                     "my_custom_key": "custom_value"
                 ]
-                optional.forEach { key, value in info[key] = value }
+                optional.forEach { info[$0.key] = $0.value }
                 let profile = Profile(json: info)
                 expect(profile?["my_custom_key"] as? String) == "custom_value"
             }
@@ -182,7 +182,7 @@ class UserProfileSpec: QuickSpec {
                     "dictionary": dictionary,
                     "list": list
                 ]
-                optional.forEach { key, value in info[key] = value }
+                optional.forEach { info[$0.key] = $0.value }
                 profile = Profile(json: info)
             }
 

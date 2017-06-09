@@ -107,7 +107,7 @@ public extension NativeAuthTransaction {
             switch result {
             case .success(let credentials):
                 var parameters: [String: Any] = self.parameters
-                credentials.extras.forEach { parameters[$0] = $1 }
+                credentials.extras.forEach { parameters[$0.key] = $0.value }
                 self.authentication.loginSocial(token: credentials.token, connection: self.connection, scope: self.scope, parameters: parameters)
                     .start(callback)
             case .failure(let error):

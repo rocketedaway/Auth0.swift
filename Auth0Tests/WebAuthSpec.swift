@@ -57,7 +57,8 @@ class WebAuthSharedExamplesConfiguration: QuickConfiguration {
                 expect(components?.queryItems).to(containItem(withName:"state"))
             }
 
-            params.forEach { key, value in
+            params.forEach { (arg) in
+                let (key, value) = arg
                 it("should have query parameter \(key)") {
                     expect(components?.queryItems).to(containItem(withName: key, value: value))
                 }
@@ -77,7 +78,7 @@ private func defaultQuery(withParameters parameters: [String: String] = [:]) -> 
         "redirect_uri": RedirectURL.absoluteString,
         "scope": "openid",
         ]
-    parameters.forEach { query[$0] = $1 }
+    parameters.forEach { query[$0.key] = $0.value }
     return query
 }
 

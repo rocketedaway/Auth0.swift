@@ -30,21 +30,21 @@ import Foundation
 @objc(A0Profile)
 public class Profile: NSObject, JSONObjectPayload {
 
-    public let id: String
-    public let name: String
-    public let nickname: String
-    public let pictureURL: URL
-    public let createdAt: Date
+    @objc public let id: String
+    @objc public let name: String
+    @objc public let nickname: String
+    @objc public let pictureURL: URL
+    @objc public let createdAt: Date
 
-    public let email: String?
-    public let emailVerified: Bool
-    public let givenName: String?
-    public let familyName: String?
+    @objc public let email: String?
+    @objc public let emailVerified: Bool
+    @objc public let givenName: String?
+    @objc public let familyName: String?
 
-    public let additionalAttributes: [String: Any]
-    public let identities: [Identity]
+    @objc public let additionalAttributes: [String: Any]
+    @objc public let identities: [Identity]
 
-    public subscript(key: String) -> Any? {
+    @objc public subscript(key: String) -> Any? {
         return self.additionalAttributes[key]
     }
 
@@ -52,16 +52,16 @@ public class Profile: NSObject, JSONObjectPayload {
         return self[key] as? Type
     }
 
-    public var userMetadata: [String: Any] {
+    @objc public var userMetadata: [String: Any] {
         return self["user_metadata"] as? [String: Any] ?? [:]
     }
 
-    public var appMetadata: [String: Any] {
+    @objc public var appMetadata: [String: Any] {
         return self["app_metadata"] as? [String: Any] ?? [:]
     }
 
     // swiftlint:disable:next function_parameter_count
-    required public init(id: String, name: String, nickname: String, pictureURL: URL, createdAt: Date, email: String?, emailVerified: Bool, givenName: String?, familyName: String?, attributes: [String: Any], identities: [Identity]) {
+    @objc required public init(id: String, name: String, nickname: String, pictureURL: URL, createdAt: Date, email: String?, emailVerified: Bool, givenName: String?, familyName: String?, attributes: [String: Any], identities: [Identity]) {
         self.id = id
         self.name = name
         self.nickname = nickname
@@ -93,9 +93,9 @@ public class Profile: NSObject, JSONObjectPayload {
         let identities = identityValues.flatMap { Identity(json: $0) }
         let keys = Set(["user_id", "name", "nickname", "picture", "created_at", "email", "email_verified", "given_name", "family_name", "identities"])
         var values: [String: Any] = [:]
-        json.forEach { key, value in
-            guard !keys.contains(key) else { return }
-            values[key] = value
+        json.forEach { entry in
+            guard !keys.contains(entry.key) else { return }
+            values[entry.key] = entry.value
         }
         let attributes = values
         self.init(id: id, name: name, nickname: nickname, pictureURL: pictureURL, createdAt: createdAt, email: email, emailVerified: emailVerified, givenName: givenName, familyName: familyName, attributes: attributes, identities: identities)

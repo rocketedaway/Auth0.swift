@@ -199,12 +199,12 @@ class AuthenticationErrorSpecSharedExamplesConfiguration: QuickConfiguration {
                 }
             }
 
-            values.forEach { key, value in
+            values.forEach { (arg) in
+                let (key, value) = arg
                 it("should contain \(key)") {
                     expect(error.info[key] as? String) == value
                 }
             }
-
 
             it("should not match any custom error") {
                 expect(error.isRuleError).to(beFalse(), description: "should not match rule error")
@@ -223,7 +223,7 @@ class AuthenticationErrorSpecSharedExamplesConfiguration: QuickConfiguration {
                 "code": code,
                 "description": description,
                 ]
-            extras?.forEach { values[$0] = $1 }
+            extras?.forEach { values[$0.key] = $0.value }
             let error = AuthenticationError(info: values, statusCode: 401)
 
             it("should have code \(code)") {
@@ -234,13 +234,15 @@ class AuthenticationErrorSpecSharedExamplesConfiguration: QuickConfiguration {
                 expect(error.description) == description
             }
 
-            values.forEach { key, value in
+            values.forEach { (arg) in
+                let (key, value) = arg
                 it("should contain \(key)") {
                     expect(error.info[key] as? String) == value
                 }
             }
 
-            extras?.forEach { key, value in
+            extras?.forEach { (arg) in
+                let (key, value) = arg
                 it("should have key \(key) with value \(value)") {
                     expect(error.info[key] as? String) == value
                 }
@@ -258,7 +260,8 @@ class AuthenticationErrorSpecSharedExamplesConfiguration: QuickConfiguration {
                 expect(error.description).toNot(beNil())
             }
 
-            values.forEach { key, value in
+            values.forEach { (arg) in
+                let (key, _) = arg
                 it("should contain \(key)") {
                     expect(error.info[key]).toNot(beNil())
                 }

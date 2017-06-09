@@ -70,7 +70,7 @@ public struct Request<T, E: Auth0Error>: Requestable {
             #endif
         }
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        headers.forEach { name, value in request.setValue(value, forHTTPHeaderField: name) }
+        headers.forEach { request.setValue($0.value, forHTTPHeaderField: $0.key) }
         telemetry.addTelemetryHeader(request: request)
         return request as URLRequest
     }

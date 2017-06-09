@@ -77,7 +77,8 @@ class SafariWebAuth: WebAuth {
     }
 
     func parameters(_ parameters: [String: String]) -> Self {
-        parameters.forEach { self.parameters[$0] = $1 }
+        parameters.forEach { self.parameters[$0.key] = $0.value
+        }
         return self
     }
 
@@ -156,9 +157,9 @@ class SafariWebAuth: WebAuth {
         if self.responseType.contains(.idToken) {
             entries["nonce"] = self.nonce
         }
-        self.parameters.forEach { entries[$0] = $1 }
+        self.parameters.forEach { entries[$0.key] = $0.value }
 
-        entries.forEach { items.append(URLQueryItem(name: $0, value: $1)) }
+        entries.forEach { items.append(URLQueryItem(name: $0.key, value: $0.value)) }
         components.queryItems = self.telemetry.queryItemsWithTelemetry(queryItems: items)
         return components.url!
     }

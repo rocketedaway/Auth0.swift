@@ -52,8 +52,8 @@ struct DefaultLogger: Logger {
             let url = request.url?.absoluteString
             else { return }
         output.log(message: "\(method) \(url) HTTP/1.1")
-        session.configuration.httpAdditionalHeaders?.forEach { key, value in output.log(message: "\(key): \(value)") }
-        request.allHTTPHeaderFields?.forEach { key, value in output.log(message: "\(key): \(value)") }
+        session.configuration.httpAdditionalHeaders?.forEach { output.log(message: "\($0.key): \($0.value)") }
+        request.allHTTPHeaderFields?.forEach { output.log(message: "\($0.key): \($0.value)") }
         if let data = request.httpBody, let string = String(data: data, encoding: .utf8) {
             output.newLine()
             output.log(message:string)
@@ -64,7 +64,7 @@ struct DefaultLogger: Logger {
     func trace(response: URLResponse, data: Data?) {
         if let http = response as? HTTPURLResponse {
             output.log(message: "HTTP/1.1 \(http.statusCode)")
-            http.allHeaderFields.forEach { key, value in output.log(message: "\(key): \(value)") }
+            http.allHeaderFields.forEach { output.log(message: "\($0.key): \($0.value)") }
             if let data = data, let string = String(data: data, encoding: .utf8) {
                 output.newLine()
                 output.log(message: string)

@@ -37,7 +37,7 @@ func hasAllOf(_ parameters: [String: String]) -> OHHTTPStubsTestBlock {
 func hasAtLeast(_ parameters: [String: String]) -> OHHTTPStubsTestBlock {
     return { request in
         guard let payload = request.a0_payload else { return false }
-        let entries = parameters.filter { (key, _) in payload.contains { (name, _) in  key == name } }
+        let entries = parameters.filter { (arg) -> Bool in let (key, _) = arg; return payload.contains { (arg) -> Bool in  let (name, _) = arg; return key == name } }
         return entries.count == parameters.count && entries.reduce(true, { (initial, entry) -> Bool in
             return initial && payload[entry.0] as? String == entry.1
         })

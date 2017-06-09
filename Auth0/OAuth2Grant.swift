@@ -117,7 +117,7 @@ struct PKCE: OAuth2Grant {
 
     func values(fromComponents components: URLComponents) -> [String : String] {
         var items = components.a0_fragmentValues
-        components.a0_queryValues.forEach { items[$0] = $1 }
+        components.a0_queryValues.forEach { items[$0.key] = $0.value }
         return items
     }
 }
